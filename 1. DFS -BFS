@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void dfs(int v , vector<int>&vis , vector<vector<int>>&a){
+    cout<<v<<" "; vis[v]=1; 
+
+    for(int j=0; j<vis.size() ; j++){
+        if(vis[j]==0 && a[v][j]==1) dfs(j,vis,a);
+    }
+}
+
+int main() {
+    cout<<"enter num of vertices"<<endl;
+    int n; cin>>n;
+    cout<<"enter adj matrix"<<endl; 
+
+    vector<int>vis(n,0);
+    vector<vector<int>>a(n,vector<int>());
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++) {
+            int q; cin>>q;
+            a[i].push_back(q);
+        }
+        
+    }
+
+    cout<<"DFS Traversal"<<endl;
+    for(int i=0;i<n;i++){
+        if(vis[i]==0) dfs(i,vis,a); 
+    }
+    
+    cout<<"BFS Traversal"<<endl;
+    queue<int>q;
+    q.push(0); vis[0]=0;
+    while(!q.empty()){
+        int f=q.front(); cout<<f<<" ";
+        for(int i=0;i<n;i++){
+            if(vis[i]==1 && a[f][i]==1) {
+                q.push(i); vis[i]=0;
+            }
+        }
+        q.pop();
+    }
+}
