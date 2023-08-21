@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int partition(vector<int>&a , int low , int high){
+    int i=low, j=high, pivot=a[low];
+    while(i<j){
+        while(i<=high && a[i]<=pivot) i++;
+        while(j>=low && a[j]>pivot) j--;
+        if(i<j) swap(a[i],a[j]);
+    } 
+
+    swap(a[low],a[j]);
+    return j;
+}
+
+void qs (vector<int>&a , int low , int high){
+    if(low<high){
+        int j= partition(a,low,high);
+        qs(a,low,j-1);
+        qs(a,j+1,high);
+    }
+}
+
+
+int main(){
+    cout<<"Enter number of elements : ";
+    int n; cin>>n;
+    vector<int>a(n,-1);
+    cout<<"Enter the elements : ";
+    for(int i=0;i<n;i++) cin>>a[i];
+    qs(a,0,n-1);
+    cout<<"Sorted array is : ";
+    for(int i=0;i<n;i++) cout<<a[i]<<" ";  cout<<"\n";
+}
