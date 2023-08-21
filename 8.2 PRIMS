@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    cout<<"enter num of vertices and edges : ";
+    int n , m; cin>>n>>m;
+    vector< vector<pair<int,int>> >v(n+1);
+    cout<<"\nenter edges : \n";
+    for(int i=0;i<m;i++){
+        int a,b,c; cin>>a>>b>>c;
+        v[a].push_back({b,c});
+        v[b].push_back({a,c});
+    }
+        vector<int>visit(n+1,0);
+        priority_queue< vector<int> >pq; //{wt , cur , par}
+        vector<pair<int,int>>mst;
+        long long sum=0;
+        
+        pq.push({0,1,0});
+
+        while(!pq.empty()){
+            int wt = -pq.top()[0] , cur = pq.top()[1] , par = pq.top()[2];
+            pq.pop();
+            
+            if(visit[cur]) continue;
+            
+            sum+=wt;
+            visit[cur]=1;
+            if(par!=0) mst.push_back({cur,par});
+            
+            for(auto neigh:v[cur]){
+                if(!visit[neigh.first]) pq.push({-neigh.second , neigh.first ,cur});
+            }
+        }
+        int w=0;
+        for(int i=1;i<=n;i++){
+            if(!visit[i]){
+                cout<<"DISCONNECTED COMPONENTS"; w++; break;
+            }
+        }
+        if(w==0) cout<<"minimum spanning sum is "<<sum<<endl;
+        cout<<"minimum spanning tree is :\n";
+        for(auto it:mst){
+            cout<<it.first<<" "<<it.second<<endl;
+        }
+    
+
+}
