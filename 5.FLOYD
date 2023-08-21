@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+ int main(){
+    cout<<" enter num of vertices : ";
+    int n; cin>>n;
+    int adj[n][n] , ans[n][n];
+    cout<<"\nenter adj matrix : \n";
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cin>>adj[i][j];
+            ans[i][j] = adj[i][j];
+        }
+    }
+    for(int k=0;k<n;k++){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                ans[i][j] = min(ans[i][j] , ans[i][k] + ans[k][j]);
+            }
+        }
+    }
+    cout<<"distance matrix is : \n";
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cout<<ans[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+ }
