@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    cout<<"enter num of items : ";
+    int n; cin>>n;
+    cout<<"\nenter weights and values :\n";
+    int w[n] , val[n];
+    for(int i=0;i<n;i++){
+        cin>>w[i]>>val[i];
+        cout<<endl;
+    }
+    cout<<"enter knapsack capacity : ";
+    int cap; cin>>cap;
+    vector<vector<int>>dp(n,vector<int>(cap+1,0));
+    for(int i=0;i<n;i++){
+        for(int j=1;j<=cap;j++){
+            if(i==0){
+                if(j>=w[i]) dp[i][j] = val[i];
+            }
+            else{
+                int not_take = dp[i-1][j];
+                int take = INT_MIN;
+                if(j>=w[i]) take = val[i] + dp[i-1][j-w[i]];
+                dp[i][j] = max(take, not_take);
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=1;j<=cap;j++){
+            cout<<dp[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<"max value is "<<dp[n-1][cap];
+}
