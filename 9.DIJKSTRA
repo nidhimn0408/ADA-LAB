@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+
+void dijkstra(int src , vector<vector<pair<int,ll>>>&v , vector<ll>&dist ){
+    //tc : (m+n)*logn
+    priority_queue< pair<ll,int> , vector<pair<ll,int>> , greater<pair<ll,int>> >pq;
+    pq.push( {0,src} );
+    dist[src]=0;
+    
+    while(!pq.empty()){
+        
+        pair<ll,int>mn = pq.top(); //min_node
+        pq.pop();
+        ll wt=mn.first; 
+        int cur=mn.second;
+        
+        if(wt!=dist[cur]) continue;
+        
+        for(auto neigh:v[cur]){
+            int node =neigh.first;
+            ll w=neigh.second;
+            
+            if(dist[node] > dist[cur] + w){
+                dist[node] = dist[cur] + w;
+                pq.push( {dist[node],node} );
+            }
+        }
+    }
+}
+
+int main() {
+    cout<<"enter num of vertices and edges : ";
+    int n,m; cin>>n>>m;
+    vector<vector<pair<int,ll>>>v(n+1);
+    cout<<"\nenter edges : \n";
+    for(int i=0;i<m;i++){
+        int a,b; ll c;
+        cin>>a>>b>>c;
+        v[a].push_back({b,c});
+    }
+    vector<ll>dist(n+1,1e16);
+    cout<<"enter source : ";
+    int src; cin>>src;
+    dijkstra(1,v,dist);
+    
+    cout<<"\nmin distance from each src to each node is :\n";
+    for(int i=1;i<=n;i++) {
+        cout<<src<<" to "<<i<<" -> "<<dist[i]<<" "; 
+        cout<<endl;
+    }
+    
+}
