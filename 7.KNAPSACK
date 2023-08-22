@@ -1,5 +1,18 @@
 #include<bits/stdc++.h>
 using namespace std;
+
+int rec(int i,int mw,vector<int>&w, vector<int>&val,vector<vector<int>>&dp){
+	if(i==0){
+		if(w[i]<=mw) return dp[i][mw]=val[i];
+		return dp[i][mw]=0;
+	}
+	if(dp[i][mw]!=-1) return dp[i][mw];
+	int not_pick=rec(i-1,mw,w,val,dp);
+	int pick=INT_MIN;
+	if(w[i]<=mw) pick = rec(i-1,mw-w[i],w,val,dp) + val[i];
+	return dp[i][mw]=max(pick,not_pick);
+}
+
 int main(){
     cout<<"enter num of items : ";
     int n; cin>>n;
