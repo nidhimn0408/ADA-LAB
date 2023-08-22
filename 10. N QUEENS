@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool check(int x, int y, vector<string> &mat)
+{
+    int n = mat.size();
+    for (int i = 0; i < y; i++)
+    {
+        if (mat[x][i] == 'Q')
+            return false;
+    }
+    for (int i = 0; i < x; i++)
+    {
+        if (mat[i][y] == 'Q')
+            return false;
+    }
+    vector<int> v1 = {1, 1, -1, -1};
+    vector<int> v2 = {-1, 1, -1, 1};
+
+    for (int i = 0; i < 4; i++)
+    {
+        int x1 = x, y1 = y;
+        while (0 <= x1 && x1 < n && 0 <= y1 && y1 < n)
+        {
+            if (mat[x1][y1] == 'Q')
+                return false;
+            else
+            {
+                x1 += v1[i];
+                y1 += v2[i];
+            }
+        }
+    }
+    return true;
+}
+
+void rec(int i, int n, vector<vector<string>> &ans, vector<string> &mat)
+{
+    if (i == n)
+    {
+        ans.push_back(mat);
+        return;
+    }
+    for (int j = 0; j < n; j++)
+    {
+        if (check(i, j, mat))
+        {
+            mat[i][j] = 'Q';
+            rec(i + 1, n, ans, mat);
+            mat[i][j] = '.';
+        }
+    }
+}
+
+int main()
+{
+    cout << "enter n : ";
+    int n;
+    cin >> n;
+    vector<vector<string>> ans;
+    string s(n, '.');
+    vector<string> mat(n, s);
+    rec(0, n, ans, mat);
+    cout << "printing boards\n";
+    for (auto i : ans)
+    {
+        for (int j = 0; j < ans[0].size(); j++)
+        {
+           string st = i[j];
+           for(int k=0;k<n;k++){
+            cout<<st[k]<<" ";
+           }
+           cout<<endl;
+        }
+        cout << endl;
+    }
+}
